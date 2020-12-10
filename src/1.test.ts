@@ -1,4 +1,4 @@
-import {find_pair_with_sum} from "./1";
+import {find_pair_with_sum, readFileNumbers} from "./1";
 
 test('find example pair', () => {
     let result = find_pair_with_sum(
@@ -34,4 +34,10 @@ test('find example answer', () => {
         ]);
 
     expect(result).toBe(514579)
+})
+
+test('read number from file', () =>{
+    const expenses: number[] = readFileNumbers('data/1/input.txt')
+    expect(expenses).toContain(969)
+    expect(expenses).toContain(1743)
 })

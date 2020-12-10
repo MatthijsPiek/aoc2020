@@ -1,3 +1,5 @@
+import {readFileSync} from 'fs'
+
 interface NumberArray {
     length: number;
 
@@ -19,3 +21,8 @@ export function find_pair_with_sum(terms: NumberArray, sum: number) {
 
     return pair
 }
+
+export function readFileNumbers(path: string = '../data/1.ts') {
+    return readFileSync(path).toString().split('\n').map(Number)
+}
+
