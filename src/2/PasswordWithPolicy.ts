@@ -1,20 +1,20 @@
 export class PasswordWithPolicy {
-    policy_min = 0
-    policy_max = 0
+    policy_first = 0
+    policy_last = 0
     policy_char = ""
     password = ""
 
     constructor(entry: string) {
         const matches = entry.match(/^([0-9]+)-([0-9]+) (.): (.+)$/);
         if (matches && matches.length == 5) {
-            this.policy_min = Number(matches[1]);
-            this.policy_max = Number(matches[2]);
+            this.policy_first = Number(matches[1]);
+            this.policy_last = Number(matches[2]);
             this.policy_char = matches[3];
             this.password = matches[4];
         }
     }
 
-    validate(): boolean {
+    validate_repetition(): boolean {
         let i = -1;
         let count = 0;
 
@@ -28,6 +28,11 @@ export class PasswordWithPolicy {
             }
         }
 
-        return count >= this.policy_min && count <= this.policy_max;
+        return count >= this.policy_first && count <= this.policy_last;
+    }
+
+    validate_positional(): boolean {
+        const positional_chars = [ this.password[this.policy_first - 1], this.password[this.policy_last - 1]];
+        return positional_chars.filter((char) => char == this.policy_char).length == 1;
     }
 }
