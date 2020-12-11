@@ -1,34 +1,5 @@
-class PasswordWithPolicy {
-    policy_min: number
-    policy_max: number
-    policy_char: string
-    password: string
-
-    constructor(entry: string) {
-        let matches = entry.match(/^([0-9]+)-([0-9]+) (.): (.+)$/)
-        this.policy_min = Number(matches[1])
-        this.policy_max = Number(matches[2])
-        this.policy_char = matches[3]
-        this.password = matches[4]
-    }
-
-    validate() {
-        let i = - 1
-        let count = 0
-
-        while (i < this.password.length) {
-            i = this.password.indexOf(this.policy_char, i + 1)
-
-            if (i != -1) {
-                count++;
-            } else {
-                break;
-            }
-        }
-
-        return count >= this.policy_min && count <= this.policy_max;
-    }
-}
+import {count_valid_passwords} from "./2";
+import {PasswordWithPolicy} from "./2/PasswordWithPolicy";
 
 test("validate 1-3 a: abcde", () => {
     expect(new PasswordWithPolicy("1-3 a: abcde").validate())
@@ -54,4 +25,14 @@ test("validate 2-9 c: ccccccccc", () => {
         .toBe(true)
 })
 
+test("full example", () => {
+        let number_valid: number = count_valid_passwords(
+            [
+                "1-3 a: abcde",
+                "1-3 b: cdefg",
+                "2-9 c: ccccccccc"]
+        )
 
+        expect(number_valid).toBe(2)
+    }
+)
